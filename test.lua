@@ -1,20 +1,15 @@
 #!/usr/bin/lua5.3
-local acciones = {"velocidad", "saltar", "recibir daño", "heal", "recibir daño", "caminar", "recibir daño", "velocidad", "recibir daño"}
-local health = 3
+local acciones = {"velocidad", "caminar", "caminar", "heal", "recibir daño", "caminar", "recibir daño", "velocidad", "caminar", "recibir daño"}
+local health = 5
 local x = 0
-local v = false
+local v = 1
+local turnoActivacionHaste = 0
 
-function efectuarAccions(hp, posicion, velocidad, accion)
-    local newhp, newposicion, newVelocidad = hp, posicion, velocidad
+function efectuarAccions(hp, posicion, velocidad, turno, tah, accion)
+    local newhp, newposicion, newVelocidad, newtah = hp, posicion, velocidad, newTurnoActivacionHaste
     if (accion == "caminar")
     then
-        if (velocidad == true)
-        then
-            print("caminaste rápido")
-            newposicion = newposicion + 2
-        else
-            newposicion = newposicion + 1
-        end
+        newposicion = newposicion + velocidad
         print("has caminao, tu posición es", newposicion)
     elseif (accion == "saltar")
     then
@@ -29,18 +24,25 @@ function efectuarAccions(hp, posicion, velocidad, accion)
         print("te han curao, tu hp quedó en", newhp)
     elseif (accion == "velocidad")
     then
-        newVelocidad = true
+        newVelocidad = velocidad * 2
+        newTurnoActivacionHaste = turno
         print("HASTE")
     else
         print("acción desconocida, no hice nada")
     end
-    return newhp, newposicion, newVelocidad
+    if (newTurnoActivacionHaste ~= 0 and turno - newTurnoActivacionHaste >= 2)
+    then
+        print("te quito el haste")
+        newVelocidad = 1
+        newTurnoActivacionHaste = 0
+    end
+    return newhp, newposicion, newVelocidad, newTurnoActivacionHaste
 end
 
 for key, currentAccion in ipairs(acciones)
 do
-    print("antes", health, x)
-    health, x, v = efectuarAccions(health, x, v, currentAccion)
+    --print("antes", health, x, key)
+    health, x, v, turnoActivacionHaste = efectuarAccions(health, x, v, key, turnoActivacionHaste, currentAccion)
     if (health <= 0)
     then
         print("tukeaste")
@@ -48,7 +50,7 @@ do
     end
 end
 
-if (health > 0)
+if (health > 0 and x >= 10)
 then
     print ("tu posicion es ", x, "y tu hp es", health)
     print("eres buff doge")
@@ -56,5 +58,3 @@ else
     print ("tu posicion es ", x, "y tu hp es", health)
     print("eres cheems")
 end
-
---tarea: implementar haste. implementar criterio de ganar cuando está vivo y posicion es al menos 10
