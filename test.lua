@@ -1,13 +1,20 @@
 #!/usr/bin/lua5.3
-local acciones = {"velocidad", "saltar", "recibir daño", "heal", "recibir daño", "recibir daño", "recibir daño", "caminar", "recibir daño", "velocidad", "recibir daño"}
-local hp = 3
-local posicion = 0
+local acciones = {"velocidad", "saltar", "recibir daño", "heal", "recibir daño", "caminar", "recibir daño", "velocidad", "recibir daño"}
+local health = 3
+local x = 0
+local v = false
 
-function efectuarAccions(hp, posicion, accion)
-    local newhp, newposicion = hp, posicion
+function efectuarAccions(hp, posicion, velocidad, accion)
+    local newhp, newposicion, newVelocidad = hp, posicion, velocidad
     if (accion == "caminar")
     then
-        newposicion = newposicion + 1
+        if (velocidad == true)
+        then
+            print("caminaste rápido")
+            newposicion = newposicion + 2
+        else
+            newposicion = newposicion + 1
+        end
         print("has caminao, tu posición es", newposicion)
     elseif (accion == "saltar")
     then
@@ -22,31 +29,31 @@ function efectuarAccions(hp, posicion, accion)
         print("te han curao, tu hp quedó en", newhp)
     elseif (accion == "velocidad")
     then
-        newposicion = newposicion + 2
-        print("HASTE", newposicion)
+        newVelocidad = true
+        print("HASTE")
     else
         print("acción desconocida, no hice nada")
     end
-    return newhp, newposicion
+    return newhp, newposicion, newVelocidad
 end
 
 for key, currentAccion in ipairs(acciones)
 do
-    print("antes", hp, posicion)
-    hp, posicion = efectuarAccions(hp, posicion, currentAccion)
-    if (hp <= 0)
+    print("antes", health, x)
+    health, x, v = efectuarAccions(health, x, v, currentAccion)
+    if (health <= 0)
     then
         print("tukeaste")
         break
     end
 end
 
-if (hp > 0)
+if (health > 0)
 then
-    print ("tu posicion es ", posicion, "y tu hp es", hp)
+    print ("tu posicion es ", x, "y tu hp es", health)
     print("eres buff doge")
 else
-    print ("tu posicion es ", posicion, "y tu hp es", hp)
+    print ("tu posicion es ", x, "y tu hp es", health)
     print("eres cheems")
 end
 
