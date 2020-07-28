@@ -1,5 +1,5 @@
 #!/usr/bin/lua5.3
-local acciones = {"caminar", "saltar", "recibir daño", "heal", "recibir daño", "recibir daño", "recibir daño", "caminar", "recibir daño", "recibir daño"}
+local acciones = {"velocidad", "saltar", "recibir daño", "heal", "recibir daño", "recibir daño", "recibir daño", "caminar", "recibir daño", "velocidad", "recibir daño"}
 local hp = 3
 local posicion = 0
 
@@ -20,6 +20,10 @@ function efectuarAccions(hp, posicion, accion)
     then
         newhp = newhp + 1
         print("te han curao, tu hp quedó en", newhp)
+    elseif (accion == "velocidad")
+    then
+        newposicion = newposicion + 2
+        print("HASTE", newposicion)
     else
         print("acción desconocida, no hice nada")
     end
