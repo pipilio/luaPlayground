@@ -51,8 +51,12 @@ end
 
 
 function cargarArbolBinario(arbol, arreglo)
-    --toma un arreglo de numeros y los inserta en arbol
-    --retorna el arbol con los numeros cargados
+    local tree = arbol
+    for k, v in ipairs(arreglo)
+    do
+        tree = insertaElemento(tree, v)
+    end
+    return tree
 end
 
 function encontrarNumero(arbol, numero)
@@ -62,16 +66,20 @@ end
 
 local arbol = nil
 
-arbol = insertaElemento(arbol, 5)
-arbol = insertaElemento(arbol, 1)
-arbol = insertaElemento(arbol, 11)
-arbol = insertaElemento(arbol, 4)
-arbol = insertaElemento(arbol, 11)
-arbol = insertaElemento(arbol, 0)
-arbol = insertaElemento(arbol, 9)
-arbol = insertaElemento(arbol, 20)
-arbol = insertaElemento(arbol, 21)
 
-imprimeNodo(arbol,1)
+
+--arbol = insertaElemento(arbol, 5)
+--arbol = insertaElemento(arbol, 1)
+--arbol = insertaElemento(arbol, 11)
+--arbol = insertaElemento(arbol, 4)
+--arbol = insertaElemento(arbol, 11)
+--arbol = insertaElemento(arbol, 0)
+--arbol = insertaElemento(arbol, 9)
+--arbol = insertaElemento(arbol, 20)
+--arbol = insertaElemento(arbol, 21)
+
+imprimeNodo(arbol, 1)
+local x = cargarArbolBinario(arbol, {1,5,3})
+print(x)
 
 -- print("arbol", arbol)
